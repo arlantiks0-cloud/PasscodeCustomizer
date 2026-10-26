@@ -1,6 +1,5 @@
 Package: com.yourname.passcodecustomizer
 Name: PasscodeCustomizer
-Depends: firmware (>= 14.0), preferenceloader, ws.hbang.common
 Version: 1.4.88
 Architecture: iphoneos-arm
 Maintainer: f1lony
