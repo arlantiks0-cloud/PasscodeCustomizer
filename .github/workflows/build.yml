@@ -14,22 +14,16 @@ jobs:
       - name: Install Dependencies
         run: |
           sudo apt-get update
-          sudo apt-get install -y build-essential clang perl git curl dpkg sudo
+          sudo apt-get install -y build-essential clang perl git curl dpkg
       
-      - name: Install Theos (Official Script)
+      - name: Install Theos
         run: |
-          sudo mkdir -p /opt/theos
-          sudo chown -R $USER:$USER /opt/theos
-          export THEOS=/opt/theos
-          # Официальный установщик сам скачает и тулчейн, и SDK куда нужно
-          bash -c "$(curl -fsSL https://raw.githubusercontent.com/theos/theos/master/bin/install-theos)" || true
-          if [ -d "$HOME/theos" ]; then
-            cp -rn $HOME/theos/* /opt/theos/ 2>/dev/null || true
-          fi
+          export THEOS=$HOME/theos
+          bash -c "$(curl -fsSL https://raw.githubusercontent.com/theos/theos/master/bin/install-theos)"
           
       - name: Build Package
         run: |
-          export THEOS=/opt/theos
+          export THEOS=$HOME/theos
           make package FINALPACKAGE=1
           
       - name: Upload Artifact
