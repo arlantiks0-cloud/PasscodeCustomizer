@@ -1,45 +1,34 @@
-#import <UIKit/UIKit.h>
 #import <Cephei/HBPreferences.h>
+#import <UIKit/UIKit.h>
 
-static BOOL enabled;
-static BOOL reduceLagEnabled;
-static NSString *customImagePath;
+@interface CSPasscodeViewController : UIViewController
+@end
 
-// Хук на панель ввода пароля в SpringBoard
-%hook SBUIPasscodeLockViewWithKeypad
-- (void)layoutSubviews {
-    %orig;
-    if (!enabled) return;
+%hook CSPasscodeViewController
 
-    UIView *selfView = (UIView *)self;
-    UIImageView *bgImageView = [selfView viewWithTag:8888];
-    if (!bgImageView && customImagePath.length > 0) {
-        bgImageView = [[UIImageView alloc] initWithFrame:selfView.bounds];
-        bgImageView.tag = 8888;
-        bgImageView.contentMode = UIViewContentModeScaleAspectFill;
-        bgImageView.image = [UIImage imageWithContentsOfFile:customImagePath];
-        [selfView insertSubview:bgImageView atIndex:0];
-    } else if (customImagePath.length > 0) {
-        bgImageView.image = [UIImage imageWithContentsOfFile:customImagePath];
-    }
-}
-%end
-
-// Функция оптимизации для уменьшения лагов
-%hook SBFluidSwitcherViewController
 - (void)viewDidLoad {
     %orig;
-    if (reduceLagEnabled) {
-        UIViewController *selfVC = (UIViewController *)self;
-        selfVC.view.alpha = 0.99; 
+
+    HBPreferences *prefs = [HBPreferences preferencesForIdentifier:@"com.f1lony.passcodecustomizer"];
+    BOOL enabled = [prefs boolForKey:@"enabled" default:YES];
+    
+    if (!enabled) return;
+
+    NSString *bgPath = [prefs objectForKey:@"bgPath"];
+    if (!bgPath) {
+        bgPath = [NSHomeDirectory() stringByAppendingPathComponent:@"/Library/Preferences/PasscodeBg.jpg"];
+    }
+
+    UIImage *bgImage = [UIImage imageWithContentsOfFile:bgPath];
+    if (bgImage) {
+        UIImageView *bgView = [[UIImageView alloc] initWithFrame:self.view.bounds];
+        bgView.image = bgImage;
+        bgView.contentMode = UIViewContentModeScaleAspectFill;
+        bgView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
+        
+        // Вставляем картинку под самый нижний слой, чтобы она уходила за кнопки
+        [self.view insertSubview:bgView atIndex:0];
     }
 }
-%end
 
-// Загрузка настроек через библиотеку Cephei
-%ctor {
-    HBPreferences *preferences = [[HBPreferences alloc] initWithIdentifier:@"com.yourname.passcodecustomizer"];
-    [preferences registerBool:&enabled default:YES forKey:@"Enabled"];
-    [preferences registerBool:&reduceLagEnabled default:YES forKey:@"ReduceLag"];
-    [preferences registerObject:&customImagePath default:@"/var/mobile/Media/PasscodeBg.jpg" forKey:@"CustomImagePath"];
-}
+%end
