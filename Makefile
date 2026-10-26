@@ -10,5 +10,3 @@ PasscodeCustomizer_FRAMEWORKS = UIKit QuartzCore
 PasscodeCustomizer_EXTRA_FRAMEWORKS += Cephei
 
 include $(THEOS_MAKE_PATH)/tweak.mk
-SUBPROJECTS += prefs
-include $(THEOS_MAKE_PATH)/aggregate.mk
