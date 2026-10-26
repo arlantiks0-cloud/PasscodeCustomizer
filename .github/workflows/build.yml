@@ -8,14 +8,14 @@ jobs:
   build:
     runs-on: ubuntu-latest
     container:
-      image: alpine:latest
+      image: debian:bookworm-slim
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
       
       - name: Install dependencies
         run: |
-          apk add --no-cache bash curl git make clang build-base sudo
+          apt-get update && apt-get install -y bash curl git make clang build-essential sudo perl
           export THEOS=/theos
           git clone --recursive https://github.com/theos/theos.git $THEOS
           
