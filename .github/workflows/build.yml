@@ -6,7 +6,6 @@ on:
 
 jobs:
   build:
-    runs-on: username-latest # или останется ubuntu-latest
     runs-on: ubuntu-latest
     container:
       image: alpine:latest
