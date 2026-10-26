@@ -1,0 +1,32 @@
+name: Build Tweak
+
+on:
+  push:
+    branches: [ main, master ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    container:
+      image: alpine:latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+      
+      - name: Install dependencies
+        run: |
+          apk add --no-cache bash curl git make clang build-base sudo
+          export THEOS=/theos
+          git clone --recursive https://github.com/theos/theos.git $THEOS
+          
+      - name: Build Package
+        run: |
+          export THEOS=/theos
+          make package FINALPACKAGE=1
+          
+      - name: Upload Artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: passcode-customizer-deb
+          path: packages/*.deb
+          
