@@ -2,60 +2,56 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-	<key>items</key>
-	<array>
-		<dict>
-			<key>cell</key>
-			<string>PSGroupCell</string>
-			<key>label</key>
-			<string>Основные настройки</string>
-		</dict>
-		<dict>
-			<key>cell</key>
-			<string>PSSwitchCell</string>
-			<key>default</key>
-			<true/>
-			<key>defaults</key>
-			<string>com.yourname.passcodecustomizer</string>
-			<key>key</key>
-			<string>Enabled</string>
-			<key>label</key>
-			<string>Включить твик</string>
-		</dict>
-		<dict>
-			<key>cell</key>
-			<string>PSSwitchCell</string>
-			<key>default</key>
-			<true/>
-			<key>defaults</key>
-			<string>com.yourname.passcodecustomizer</string>
-			<key>key</key>
-			<string>ReduceLag</string>
-			<key>label</key>
-			<string>Оптимизация / Уменьшение лагов</string>
-		</dict>
-		<dict>
-			<key>cell</key>
-			<string>PSGroupCell</string>
-			<key>label</key>
-			<string>Путь к картинке фона</string>
-			<key>footerText</key>
-			<string>Укажи путь к файлу картинки на устройстве</string>
-		</dict>
-		<dict>
-			<key>cell</key>
-			<string>PSEditTextCell</string>
-			<key>defaults</key>
-			<string>com.yourname.passcodecustomizer</string>
-			<key>key</key>
-			<string>CustomImagePath</string>
-			<key>label</key>
-			<string>Путь:</string>
-			<key>placeholder</key>
-			<string>/var/mobile/Media/PasscodeBg.jpg</string>
-		</dict>
-	</array>
-	<key>title</key>
-	<string>PasscodeCustomizer</string>
+    <key>items</key>
+    <array>
+        <dict>
+            <key>cell</key>
+            <string>PSGroupCell</string>
+            <key>label</key>
+            <string>PasscodeCustomizer Settings</string>
+        </dict>
+        <dict>
+            <key>cell</key>
+            <string>PSSwitchCell</string>
+            <key>default</key>
+            <true/>
+            <key>defaults</key>
+            <string>com.f1lony.passcodecustomizer</string>
+            <key>key</key>
+            <string>enabled</string>
+            <key>label</key>
+            <string>Включить твик</string>
+        </dict>
+        <dict>
+            <key>cell</key>
+            <string>PSGroupCell</string>
+            <key>label</key>
+            <string>Выбор фонового изображения</string>
+        </dict>
+        <dict>
+            <key>cell</key>
+            <string>PSButtonCell</string>
+            <key>label</key>
+            <string>Выбрать фото из галереи</string>
+            <key>action</key>
+            <string>selectBackgroundImage</string>
+        </dict>
+        <dict>
+            <key>cell</key>
+            <string>PSGroupCell</string>
+            <key>footerText</key>
+            <string>Для применения изменений необходим Respring.</string>
+        </dict>
+        <dict>
+            <key>cell</key>
+            <string>PSButtonCell</string>
+            <key>label</key>
+            <string>Сделать Respring</string>
+            <key>action</key>
+            <string>respringDevice</string>
+        </dict>
+    </array>
+    <key>title</key>
+    <string>PasscodeCustomizer</string>
 </dict>
 </plist>
