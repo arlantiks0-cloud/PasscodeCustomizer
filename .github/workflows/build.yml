@@ -22,7 +22,8 @@ jobs:
       - name: Download iOS SDKs
         run: |
           export THEOS=/theos
-          git clone https://github.com/theos/sdks.git $THEOS/sdks
+          git clone --depth=1 https://github.com/theos/sdks.git /tmp/sdks
+          cp -r /tmp/sdks/* $THEOS/sdks/
           
       - name: Build Package
         run: |
