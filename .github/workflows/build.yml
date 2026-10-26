@@ -7,27 +7,29 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
-    container:
-      image: debian:bookworm-slim
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
       
-      - name: Install dependencies
+      - name: Install Dependencies
         run: |
-          apt-get update && apt-get install -y bash curl git make clang build-essential sudo perl
-          export THEOS=/theos
-          git clone --recursive https://github.com/theos/theos.git $THEOS
+          sudo apt-get update
+          sudo apt-get install -y build-essential clang perl git curl dpkg
+      
+      - name: Setup Theos & Toolchain
+        run: |
+          sudo git clone --recursive https://github.com/theos/theos.git /opt/theos
+          sudo mkdir -p /opt/theos/toolchain/linux
+          sudo git clone https://github.com/theos/toolchain-linux.git /opt/theos/toolchain/linux/iphone
+          sudo chown -R $USER:$USER /opt/theos
           
       - name: Download iOS SDKs
         run: |
-          export THEOS=/theos
-          git clone --depth=1 https://github.com/theos/sdks.git /tmp/sdks
-          cp -r /tmp/sdks/* $THEOS/sdks/
+          git clone --depth=1 https://github.com/theos/sdks.git /opt/theos/sdks
           
       - name: Build Package
         run: |
-          export THEOS=/theos
+          export THEOS=/opt/theos
           make package FINALPACKAGE=1
           
       - name: Upload Artifact
