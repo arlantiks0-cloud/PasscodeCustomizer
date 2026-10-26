@@ -1,0 +1,9 @@
+Package: com.yourname.passcodecustomizer
+Name: PasscodeCustomizer
+Depends: mobilesubstrate, preferenceloader, ws.hbang.common (>= 1.13)
+Version: 1.0.0
+Architecture: iphoneos-arm
+Description: Кастомизация фона ввода пароля и оптимизация для iOS 14-17.
+Maintainer: Ты
+Author: Ты
+Section: Tweaks
