@@ -14,17 +14,18 @@ jobs:
       - name: Install Dependencies
         run: |
           sudo apt-get update
-          sudo apt-get install -y build-essential clang perl git curl dpkg
+          sudo apt-get install -y build-essential clang perl git curl dpkg sudo
       
-      - name: Setup Theos
+      - name: Install Theos (Official Script)
         run: |
-          sudo git clone --recursive https://github.com/theos/theos.git /opt/theos
+          sudo mkdir -p /opt/theos
           sudo chown -R $USER:$USER /opt/theos
-          
-      - name: Download iOS SDKs
-        run: |
-          rm -rf /opt/theos/sdks
-          git clone --depth=1 https://github.com/theos/sdks.git /opt/theos/sdks
+          export THEOS=/opt/theos
+          # Официальный установщик сам скачает и тулчейн, и SDK куда нужно
+          bash -c "$(curl -fsSL https://raw.githubusercontent.com/theos/theos/master/bin/install-theos)" || true
+          if [ -d "$HOME/theos" ]; then
+            cp -rn $HOME/theos/* /opt/theos/ 2>/dev/null || true
+          fi
           
       - name: Build Package
         run: |
