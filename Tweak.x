@@ -11,28 +11,27 @@ static NSString *customImagePath;
     %orig;
     if (!enabled) return;
 
-    // Проверяем, добавлена ли уже картинка фона, если нет — создаем UIImageView
-    UIImageView *bgImageView = [self viewWithTag:8888];
+    UIView *selfView = (UIView *)self;
+    UIImageView *bgImageView = [selfView viewWithTag:8888];
     if (!bgImageView && customImagePath.length > 0) {
-        bgImageView = [[UIImageView alloc] initWithFrame:self.bounds];
+        bgImageView = [[UIImageView alloc] initWithFrame:selfView.bounds];
         bgImageView.tag = 8888;
         bgImageView.contentMode = UIViewContentModeScaleAspectFill;
         bgImageView.image = [UIImage imageWithContentsOfFile:customImagePath];
-        // Вставляем картинку на самый задний план панели пароля
-        [self insertSubview:bgImageView atIndex:0];
+        [selfView insertSubview:bgImageView atIndex:0];
     } else if (customImagePath.length > 0) {
         bgImageView.image = [UIImage imageWithContentsOfFile:customImagePath];
     }
 }
 %end
 
-// Функция оптимизации для уменьшения лагов (ускорение анимаций / снижение нагрузки)
+// Функция оптимизации для уменьшения лагов
 %hook SBFluidSwitcherViewController
 - (void)viewDidLoad {
     %orig;
     if (reduceLagEnabled) {
-        // Убираем лишние тяжелые эффекты размытия в переключателе приложений
-        self.view.alpha = 0.99; 
+        UIViewController *selfVC = (UIViewController *)self;
+        selfVC.view.alpha = 0.99; 
     }
 }
 %end
